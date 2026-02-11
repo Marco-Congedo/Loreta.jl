@@ -2,6 +2,8 @@
 > 🦅
 > This package is part of the [Eegle.jl](https://github.com/Marco-Congedo/Eegle.jl) ecosystem for EEG data analysis and classification.
 
+---
+
 **Loreta** (EEG general library) is a pure-[julia](https://julialang.org/) 100%-human package for computing, testing and using human EEG 
 (Electroencephalography) inverse solutions of the *Minimum Norm* family. Particularly, it implements the following distributed inverse solutions:
 - *weighted minimum norm*,
@@ -17,27 +19,19 @@ For all of them, the *model-driven* and the *data-driven* version are provided, 
 >
 > Those that are not familiar with the material, may want to start with this [introduction.](https://drive.google.com/file/d0B_albC6Y6I9KczRoNjlsbWxKZ3c/view?resourcekey=0-LJGNC8sOIGlft_FJ565muA)
 
-
+---
 
 ## 🧭 Index
-- [🧩 Requirements](#-requirements)
-- [📦 Installation](#-installation)
-- [🔣 Problem Statement, Notation and Nomenclature](#-problem-statement-notation-and-nomenclature)
-- [🔌 API](#-api)
-- [💡 Examples](#-examples)
-- [✍️ About the author](#️-about-the-author)
-- [🌱 Contribute](#-contribute)
 
-
----
-## 🧩 Requirements
-
-**Julia**: version ≥ 1.10
-
-[▲index](#-index)
-
+- 📦 [Installation](#-installation)
+- 🔣 [Problem Statement, Notation and Nomenclature](#-problem-statement-notation-and-nomenclature)
+- 🔌 [API](#-api)
+- 💡 [Examples](#-examples)
+- ✍️ [About the author](#️-about-the-author)
+- 🌱 [Contribute](#-contribute)
 
 ---
+
 ## 📦 Installation
 
 Execute the following command in julia's REPL:
@@ -45,23 +39,31 @@ Execute the following command in julia's REPL:
 ```julia
     ]add Loreta
 ```
+
+There is virtually no requirement for this package. Any Julia version starting at 0.7 would work.
+
 [▲index](#-index)
 
 ---
 
 ## 🔣 Problem Statement, Notation and Nomenclature
 
-The **distributed EEG inverse problem** is stated as it follows: we are given an EEG sensor measurement \( v(t) \in \mathbb{R}^{N_e} \) at \(N_e\) electrodes, where \(t\) is time (samples) and \(c\) is mnemonic for 'voltage'; we wish to estimate the current \( c(t) \in \mathbb{R}^{N_v} \) at \(N_v\) cortical grey matter voxels in the three Cartesian spatial directions \((x, y, z)\). We have:
+The **distributed EEG inverse problem** is stated as it follows: 
 
-- **Forward equation**, determining the scalp voltage given the current distribution : \(v(t) = K c(c)\)
+- we are given an EEG sensor measurement \( x(t) \in \mathbb{R}^{N_e} \) at \(N_e\) electrodes, in \(\mu\)\(V\) units where \(t\) is time (samples)
+- we wish to estimate the current density \( j(t) \in \mathbb{R}^{N_v} \) at \(N_v\) cortical grey matter voxels ,in \(A/m²\) units, in the three Cartesian spatial directions \((x, y, z)\). 
+
+We have therefore:
+
+- **Forward equation**, determining the scalp voltage given the current distribution : \(x(t) = K c(t)\)
     It is unique for a given *leadfield matrix* \( K \in \mathbb{R}^{N_e \times (N_v \times 3)} \), which is a physical head model.
 
-- **Inverse solution**, estimating the current distribution given the scalp voltage : \(c(t) = T c(t)\)
-    It is not-unique. Each method yields a different *tranfer matrix* \( T \in \mathbb{R}^{(N_v \times 3) \times N_e } \).
+- **Inverse solution**, estimating the current distribution given the scalp voltage : \(j(t) = T x(t)\)
+    It is not-unique. Each inverse solution method yields a different *tranfer matrix* \( T \in \mathbb{R}^{(N_v \times 3) \times N_e } \).
 
 A solution is said "genuine" or to "respect the measurement" if \(KT=I\). The weighted minimum norm and eLORETA are genuine solutions, while sLORETA is not.
 
-Matrix \(TK=I\) is named the *resolution matrix*. Its successive groups of three columns, one for each voxel, are named the *point-spread functions*. They allows to ascertain whether the transfer matrix is capable of localizing correctly a single current dipole, regardless its position (voxel) and orientation. This is a minimal localization capability for an inverse solution, as it assumes the absence of noise in the measurement and the existence of only one active dipole at a time. sLORETA and eLORETA do possess this property, while the minimum norm does not.
+Matrix \(TK \ne I\) is named the *resolution matrix*. Its successive groups of three columns, one for each voxel, are named the *point-spread functions*. They allows to ascertain whether the transfer matrix is capable of localizing correctly a single current dipole, regardless its position (voxel) and orientation. This is a minimal localization capability for an inverse solution, as it (unrealistically) assumes the absence of noise in the measurement and the existence of only one active dipole at a time. Nonetheless, it is a minimal requirement. sLORETA and eLORETA do possess this property, while the minimum norm does not, like most of the inverse solution methods found in the literature.
 
 [▲index](#-index)
 
@@ -72,25 +74,25 @@ The package exports the following functions:
 | Function | Description |
 |:---------|:---------|
 | [centeringMatrix](@ref)   | common average reference operator (alias: ℌ)   |
-| [c2cd](@ref)              | compute the current density vector given a current vector   |
+| [c2cd](@ref)              | compute the squared magnitude of the current density given a current density vector |
 | [psfLocError](@ref)       | point spread function localization error   |
 | [psfErrors](@ref)         | point spread function localization, spread and equalization errors |
-| [minnorm](@ref)           | minimum norm transfer matrix (model and data-driven) |
-| [sLORETA](@ref)           | sLORETA transfer matrix (model and data-driven)|
-| [eLORETA](@ref)           | eLORETA transfer matrix (model and data-driven)|
+| [minnorm](@ref)           | compute minimum norm transfer matrix (model and data-driven) |
+| [sLORETA](@ref)           | compute sLORETA transfer matrix (model and data-driven)|
+| [eLORETA](@ref)           | compute eLORETA transfer matrix (model and data-driven)(by an iterative algorithm)|
 
 [▲index](#-index)
 
 #### centeringMatrix
 
 ```julia
-function centeringMatrix(N::Int)
+function centeringMatrix(Ne::Int)
 ```
 
 The common average reference (CAR) operator for referencing EEG data 
 potentials so that their mean across sensors (space) is zero at all samples.
 
-Let ``X`` be the ``T×N`` EEG recording, where ``T`` and ``N`` denotes the number of samples and channels (sensors), respectively,
+Let ``V`` be the ``T×N`` EEG recording, where ``T`` and ``N`` denotes the number of samples and channels (sensors), respectively,
 and let ``H_N`` be the ``N×N`` centering matrix, then 
 
 ``Y=XH`` 
