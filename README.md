@@ -10,12 +10,12 @@
 
 For all of them, the *model-driven* and the *data-driven* version are provided, with the latter being actually *beamformers* and being little known in the literature.
 
-!!! note What to study
-    All mathematical details can be found in the xxx papers (see [References]@ref).
-
-    An overview of the formula involved in the implementation is [here](https://github.com/Marco-Congedo/Loreta.jl/blob/master/Documents/Overview.pdf).
-
-    Those that are not familiar with the material, may want to start with this [introduction.](https://drive.google.com/file/d/0B_albC6Y6I9KczRoNjlsbWxKZ3c/view?resourcekey=0-LJGNC8sOIGlft_FJ565muA)
+> [!NOTE] What to study
+>   All mathematical details can be found in the xxx papers (see [References]@ref).
+>
+>   An overview of the formula involved in the implementation is [here](https://github.com/Marco-Congedo/Loreta.jl/blob/master/Documents/Overview.pdf).
+>
+>   Those that are not familiar with the material, may want to start with this [introduction.](https://drive.google.com/file/d0B_albC6Y6I9KczRoNjlsbWxKZ3c/view?resourcekey=0-LJGNC8sOIGlft_FJ565muA)
 
 !!! tip 🦅
     This package is part of the [Eegle.jl](https://github.com/Marco-Congedo/Eegle.jl) ecosystem for EEG data analysis and classification.
