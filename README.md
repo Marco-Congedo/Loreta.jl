@@ -1,5 +1,6 @@
-
----
+> [!TIP] 
+> 🦅
+> This package is part of the [Eegle.jl](https://github.com/Marco-Congedo/Eegle.jl) ecosystem for EEG data analysis and classification.
 
 > **Loreta** (EEG general library) is a pure-[julia](https://julialang.org/) 100%-human package for computing, testing and using human EEG 
 > (Electroencephalography) inverse solutions of the *Minimum Norm* family. Particularly, it implements the following distributed inverse solutions:
@@ -17,8 +18,6 @@ For all of them, the *model-driven* and the *data-driven* version are provided, 
 >
 > Those that are not familiar with the material, may want to start with this [introduction.](https://drive.google.com/file/d0B_albC6Y6I9KczRoNjlsbWxKZ3c/view?resourcekey=0-LJGNC8sOIGlft_FJ565muA)
 
-!!! tip 🦅
-    This package is part of the [Eegle.jl](https://github.com/Marco-Congedo/Eegle.jl) ecosystem for EEG data analysis and classification.
 
 
 ## 🧭 Index
