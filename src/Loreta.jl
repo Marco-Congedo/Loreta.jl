@@ -1,7 +1,6 @@
 # Model Driven and Data Driven weighted minimum norm, sLORETA and eLORETA
 # vector type inverse solutions for EEG
-# v 0.2 Oct 2024 (v0.1 Nov 2019)
-# Part of the Eegle.jl package.
+# Feb 2026 (First version Nov 2019)
 # Copyright Marco Congedo, CNRS, University Grenoble Alpes.
 
 # ¤-¤-¤-¤-¤-¤-¤-¤ CONTENT ¤-¤-¤-¤-¤-¤-¤-¤ #
@@ -212,36 +211,3 @@ end
 
 end # module
 
-#=
-# ¤-¤-¤-¤-¤-¤-¤-¤ EXAMPLES OF REAL USAGE  ¤-¤-¤-¤-¤-¤-¤-¤ #
-
-# number of electrodes, data samples, voxels
-Ne, Ns, Nv=20, 200, 3000
-
-# fake leadfield in common average reference
-K = ℌ(Ne)*randn(Ne, Nv)
-
-# fake data
-X=randn(Ne, Ns)
-
-# sample covariance matrix of the fake data
-C=(1/Ns)*(X*X')
-
-# fake weights for weighted minimum norm solutions
-weights=abs.(randn(Nv))
-
-
-Tmn = minNorm(K, 1)    # unweighted model-driven min norm with α=1
-Tmn = minNorm(K, 10)   # unweighted model-driven min norm with α=10
-Tmn = minNorm(K, 1; W=weights) # weighted model-driven min norm with α=1
-Tmn = minNorm(K, 1, C) # data-driven min norm with α=1
-
-TsLor = sLORETA(K, 1)     # model-driven sLORETA with α=1
-TsLor = sLORETA(K, 10)    # model-driven sLORETA with α=10
-TsLor = sLORETA(K, 1, C)  # data-driven sLORETA with α=1
-
-TeLor = eLORETA(K, 1)     # model-driven eLORETA with α=1
-TeLor = eLORETA(K, 10)    # model-driven eLORETA with α=10
-TeLor = eLORETA(K, 1, C)  # data-driven eLORETA with α=1
-
-=#
