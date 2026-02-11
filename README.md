@@ -2,12 +2,11 @@
 > 🦅
 > This package is part of the [Eegle.jl](https://github.com/Marco-Congedo/Eegle.jl) ecosystem for EEG data analysis and classification.
 
-> **Loreta** (EEG general library) is a pure-[julia](https://julialang.org/) 100%-human package for computing, testing and using human EEG 
-> (Electroencephalography) inverse solutions of the *Minimum Norm* family. Particularly, it implements the following distributed inverse solutions:
->
-> - *weighted minimum norm*,
-> - *standardized Low-Resolution Electromagnetic Tomography* (sLORETA),
-> - *exact Low-Resolution Electromagnetic Tomography* (eLORETA).
+**Loreta** (EEG general library) is a pure-[julia](https://julialang.org/) 100%-human package for computing, testing and using human EEG 
+(Electroencephalography) inverse solutions of the *Minimum Norm* family. Particularly, it implements the following distributed inverse solutions:
+- *weighted minimum norm*,
+- *standardized Low-Resolution Electromagnetic Tomography* (sLORETA),
+- *exact Low-Resolution Electromagnetic Tomography* (eLORETA).
 
 For all of them, the *model-driven* and the *data-driven* version are provided, with the latter being actually *beamformers* and being little known in the literature.
 
