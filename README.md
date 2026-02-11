@@ -20,13 +20,13 @@ For all of them, the *model-driven* and the *data-driven* version are provided, 
 
 
 ## 🧭 Index
-[🧩 Requirements](#-requirements)
-[📦 Installation](#-installation)
-[🔣 Problem Statement, Notation and Nomenclature](#-problem-statement-notation-and-nomenclature)
-[🔌 API](#-api)
-[💡 Examples](#-examples)
-[✍️ About the author](#️-about-the-author)
-[🌱 Contribute](#-contribute)
+- [🧩 Requirements](#-requirements)
+- [📦 Installation](#-installation)
+- [🔣 Problem Statement, Notation and Nomenclature](#-problem-statement-notation-and-nomenclature)
+- [🔌 API](#-api)
+- [💡 Examples](#-examples)
+- [✍️ About the author](#️-about-the-author)
+- [🌱 Contribute](#-contribute)
 
 
 ---
