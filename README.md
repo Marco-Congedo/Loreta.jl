@@ -20,12 +20,22 @@ For all of them, the *model-driven* and the *data-driven* version are provided, 
 
 
 ## 🧭 Index
- [Requirements](#-requirements)
+[🧩 Requirements](#-requirements)
+[📦 Installation](#-installation)
+[🔣 Problem Statement, Notation and Nomenclature](#-problem-statement-notation-and-nomenclature)
+[🔌 API](#-api)
+[💡 Examples](#-examples)
+[✍️ About the author](#️-about-the-author)
+[🌱 Contribute](#-contribute)
+
 
 ---
 ## 🧩 Requirements
 
 **Julia**: version ≥ 1.10
+
+[▲index](#-index)
+
 
 ---
 ## 📦 Installation
@@ -35,9 +45,11 @@ Execute the following command in julia's REPL:
 ```julia
     ]add Loreta
 ```
+[▲index](#-index)
+
 ---
 
-## 🔣 Problem Statement, notation and nomenclature
+## 🔣 Problem Statement, Notation and Nomenclature
 
 The **distributed EEG inverse problem** is stated as it follows: we are given an EEG sensor measurement \( v(t) \in \mathbb{R}^{N_e} \) at \(N_e\) electrodes, where \(t\) is time (samples) and \(c\) is mnemonic for 'voltage'; we wish to estimate the current \( c(t) \in \mathbb{R}^{N_v} \) at \(N_v\) cortical grey matter voxels in the three Cartesian spatial directions \((x, y, z)\). We have:
 
@@ -50,6 +62,8 @@ The **distributed EEG inverse problem** is stated as it follows: we are given an
 A solution is said "genuine" or to "respect the measurement" if \(KT=I\). The weighted minimum norm and eLORETA are genuine solutions, while sLORETA is not.
 
 Matrix \(TK=I\) is named the *resolution matrix*. Its successive groups of three columns, one for each voxel, are named the *point-spread functions*. They allows to ascertain whether the transfer matrix is capable of localizing correctly a single current dipole, regardless its position (voxel) and orientation. This is a minimal localization capability for an inverse solution, as it assumes the absence of noise in the measurement and the existence of only one active dipole at a time. sLORETA and eLORETA do possess this property, while the minimum norm does not.
+
+[▲index](#-index)
 
 ## 🔌 API
 
@@ -65,6 +79,7 @@ The package exports the following functions:
 | [sLORETA](@ref)           | sLORETA transfer matrix (model and data-driven)|
 | [eLORETA](@ref)           | eLORETA transfer matrix (model and data-driven)|
 
+[▲index](#-index)
 
 #### centeringMatrix
 
@@ -112,26 +127,25 @@ X_dc = ℌ(size(X, 1)) * X * ℌ(size(X, 2))
 [▲ API index](#-api)
 
 
+[▲index](#-index)
 
 ## 💡 Examples
 
 The examples here below assume the existence of data ``X\in \mathbb{R}^{T \times N_X}``, sampling rate `sr` and labels `sensors`:
 
-
-
-## —͟͟͞͞★ Quick Start
-
-A large collection of [tutorials](https://marco-congedo.github.io/Eegle.jl/stable/Tutorials/) (mostly to come) will get you on track.
+[▲index](#-index)
 
 ---
-
----
-## ✍️ About the authors
+## ✍️ About the author
 
 [Marco Congedo](https://sites.google.com/site/marcocongedo) is a Research Director of [CNRS](http://www.cnrs.fr/en) (Centre National de la Recherche Scientifique), working at [UGA](https://www.univ-grenoble-alpes.fr/english/) (University of Grenoble Alpes). **Contact**: first name dot last name at gmail dot com.
+
+[▲index](#-index)
 
 ---
 ## 🌱 Contribute
 
 Please contact the author if you are interested in contributing.
+
+[▲index](#-index)
 
