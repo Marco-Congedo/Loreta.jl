@@ -5,12 +5,13 @@
 
 # ¤-¤-¤-¤-¤-¤-¤-¤ CONTENT ¤-¤-¤-¤-¤-¤-¤-¤ #
 
-# centeringMatrix | common average reference operator (alias: ℌ)
-# c2cd            | current density vector given a current vector
-# psfLocError     | point spread function localization error
-# minnorm         | minimum norm transformation Matrix
-# sLORETA         | sLORETA transformation Matrix
-# eLORETA         | eLORETA transformation Matrix
+# centeringMatrix   | common average reference operator (alias: ℌ)
+# c2cd              | current density vector given a current vector
+# psfLocError       | point spread function localization error
+# psfErrors         |
+# minnorm           | minimum norm transformation Matrix
+# sLORETA           | sLORETA transformation Matrix
+# eLORETA           | eLORETA transformation Matrix
 
 module Loreta
 
