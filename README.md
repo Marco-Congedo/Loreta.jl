@@ -98,7 +98,8 @@ the computation of which is the main purpose of this package.
 >
 > This is a minimal localization capability for an inverse solution, as it (unrealistically) assumes the absence of noise in the measurement and the existence of only one active dipole at a time. Nonetheless, it is a minimal requirement. sLORETA and eLORETA possess this property, while the minimum norm does not, like most inverse solution methods found in the literature.
 
-Overall, eLORETA is known to be an excellent choice, as it provides stable results without requiring fine-tuned noise level estimation [^12].
+> [!TIP] 
+> Overall, eLORETA is known to be an excellent choice, as it provides stable results without requiring fine-tuned noise level estimation [^12].
 
 > [!WARNING] 
 > Throughout this documentation and in the package it is always assumed both the input data and the leadfield matrix is referenced to the common average --- see [centeringMatrix](#centeringmatrix).
@@ -117,11 +118,11 @@ The package exports the following functions:
 | [psfErrors](#psferrors)               | point spread function localization, spread and equalization errors |
 | [minnorm](#minnorm)                   | compute minimum norm transfer matrix (model and data-driven) |
 | [sLORETA](#sloreta)                   | compute sLORETA transfer matrix (model and data-driven)|
-| [eLORETA](#eloreta)                   | compute eLORETA transfer matrix (model and data-driven)(by an iterative algorithm)|
+| [eLORETA](#eloreta)                   | compute eLORETA transfer matrix (model and data-driven)|
 
 [▲ index](#-index)
 
-#### centeringMatrix
+### centeringMatrix
 
 ```julia
 function centeringMatrix(N::Int)
@@ -149,7 +150,7 @@ Return the n×n centering matrix.
 [▲ index](#-index)
 
 ---
-#### cd2sm
+### cd2sm
 
 ```julia
 function cd2sm(j::Vector{R}) where R<:Real
@@ -169,7 +170,7 @@ The input vector j may contain any exact multiple of 3 number of elements.
 [▲ index](#-index)
 
 ---
-#### psfLocError
+### psfLocError
 
 'point spread function Localization Error'
 
@@ -186,7 +187,7 @@ psfLocError(K::Matrix{R}, T::Matrix{R}) where R<:Real
 [▲ index](#-index)
 
 ---
-#### psfErrors
+### psfErrors
 
 ```julia
 function psfErrors(K::Matrix{R}, T::Matrix{R}) where R<:Real
@@ -208,7 +209,7 @@ Return the 3-tuple of vectors holding errors obtained at each voxel (test locati
 
 ---
 
-#### minNorm
+### minNorm
 
 ```julia
 function minNorm(K::Matrix{R},
@@ -236,7 +237,7 @@ equal to `:modelDriven` (default), as a weighted data-driven solution is not def
 
 ---
 
-#### sLORETA
+### sLORETA
 
 ```julia
 function sLORETA(K::Matrix{R},
@@ -260,7 +261,7 @@ data-driven solution, which is similar (actually better) to the linearly constra
 
 ---
 
-#### eLORETA
+### eLORETA
 
 ```julia
 function eLORETA(K::Matrix{R},
