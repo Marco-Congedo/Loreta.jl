@@ -63,7 +63,7 @@ we wish to estimate the current density
 
 j(t) ∈ ℝᵖ 
 
-at p cortical grey matter voxels, in A/m² units, in the three Cartesian spatial directions (x, y, z)
+at p cortical grey matter voxels, in A/m² units, in the three Cartesian spatial directions (x, y, z).
 
 We have therefore:
 
@@ -75,7 +75,7 @@ It is unique for a given leadfield matrix
 
 K ∈ ℝⁿ×³ᵖ.
 
-Each column of the leadfield is the scalp field for unit-length dipole pointing in one of three orthogonal directions.The leadfield encapsulate a physical head model [^9] [^10].
+Each column of the leadfield is the scalp field for unit-length dipole pointing in one of three orthogonal directions. The leadfield encapsulates a physical head model [^9] [^10].
 
 **Inverse solution** — estimating the current distribution given the scalp voltage:
 
@@ -83,15 +83,15 @@ j(t) = T x(t).
 
 It is not unique. Each inverse solution method yields a different transfer matrix
 
-T ∈ ℝ³ᵖ×ⁿ.
+T ∈ ℝ³ᵖ×ⁿ,
+the computation of which is the main purpose of this package.
 
 > [!NOTE] 
 > A solution is said *genuine* or to *respect the measurement* if 
 > K T = I.
 > The weighted minimum norm and eLORETA are genuine solutions, while sLORETA is not.
-
-> [!NOTE] 
-> Matrix 
+>
+> Also, matrix 
 > T K ≠ I 
 > is called the resolution matrix [^11]. Its successive groups of three columns, one group per voxel, are called the point-spread functions. 
 > They allow one to ascertain whether the transfer matrix is capable of correctly localizing a single current dipole, regardless of its position (voxel) and orientation.
