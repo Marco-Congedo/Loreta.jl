@@ -249,14 +249,18 @@ function sLORETA(K::Matrix{R},
 ```
 
 Given a Nx3p leadfield matrix, where N is the number of electrodes and 3p is the number of voxels times 3 (the x, y, z source components),
-return the **sLORETA transfer matrix** with regularization α.
+return the **sLORETA transfer matrix** with regularization `α`.
 
 if `C` is `:modelDriven` (default), compute the model driven solution, otherwise `C` must be the data covariance matrix and in this case compute the
 data-driven solution, which is similar (actually better) to the linearly constrained minimum variance beamformer — see [here](https://github.com/Marco-Congedo/Loreta.jl/blob/master/Documents/Overview.pdf).
 
 > [!IMPORTANT] 
 > if passed as a matrix, `C` must be non-singular. No check is performed.
+> 
 > The columns of the leadfield matrix must be centered (common average reference).
+> 
+> A suitable regularization parameter `α`>0 should be found by cross-validation or any other suitable method. Never assume an arbitrary value is suitable.
+
 
 [▲ API index](#-api)
 
@@ -275,7 +279,7 @@ function eLORETA(K::Matrix{R},
 ```
 
 Given a Nx3p leadfield matrix, where N is the number of electrodes and 3p is the number of voxels times 3 (the x, y, z source components),
-return the **eLORETA transfer matrix** with regularization α.
+return the **eLORETA transfer matrix** with regularization `α`.
 
 if `C` is `:modelDriven` (default), compute the model driven solution, otherwise `C` must be the data covariance matrix and in this case compute the
 data-driven solution, which is similar (actually better) to the linearly constrained minimum variance beamformer — see [here](https://github.com/Marco-Congedo/Loreta.jl/blob/master/Documents/Overview.pdf).
@@ -287,7 +291,10 @@ to vanish for about half the significant digits.
 
 > [!IMPORTANT] 
 > if passed as a matrix, `C` must be non-singular. No check is performed.
+> 
 > The columns of the leadfield matrix must be centered (common average reference).
+> 
+> A suitable regularization parameter `α`>0 should be found by cross-validation or any other suitable method. Never assume an arbitrary value is suitable.
 
 [▲ API index](#-api)
 
