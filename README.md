@@ -248,7 +248,7 @@ function sLORETA(K::Matrix{R},
                  C::Union{Symbol, Matrix{R}}=:modelDriven) where R<:Real
 ```
 
-Given a Nx3p leadfield matrix, where N is the number of electrodes and 3p is the number of voxels times 3 (the x, y, z source components),
+Given a Nx3p leadfield matrix, where N is the number of electrodes and 3p is the number of voxels p times 3 (the x, y, z source components),
 return the **sLORETA transfer matrix** with regularization `α`.
 
 if `C` is `:modelDriven` (default), compute the model driven solution, otherwise `C` must be the data covariance matrix and in this case compute the
@@ -278,11 +278,11 @@ function eLORETA(K::Matrix{R},
                  verbose=true) where R<:Real
 ```
 
-Given a Nx3p leadfield matrix, where N is the number of electrodes and 3p is the number of voxels times 3 (the x, y, z source components),
+Given a Nx3p leadfield matrix, where N is the number of electrodes and 3p is the number of voxels p times 3 (the x, y, z source components),
 return the **eLORETA transfer matrix** with regularization `α`.
 
 if `C` is `:modelDriven` (default), compute the model driven solution, otherwise `C` must be the data covariance matrix and in this case compute the
-data-driven solution, which is similar (actually better) to the linearly constrained minimum variance beamformer — see [here](https://github.com/Marco-Congedo/Loreta.jl/blob/master/Documents/Overview.pdf).
+data-driven solution.
 
 The model-driven solution is iterative; the convergence at each iteration is printed unless optional keyword argument `verbose` is set to false.
 
@@ -303,7 +303,7 @@ to vanish for about half the significant digits.
 ---
 ## 💡 Examples
 
-To use this package, all you will need is here below, where all you need is to replace the example data matrix `X` (of dimension sxn), where s is the number of samples and n the number of samples, and leadfield matrix K, of dimension nx3p, where p is the number of voxels used to create the leadfield, with your own data and leadfield:
+To use this package, all you will need is here below, where it is understood that you replace the example data matrix `X` of dimension sxn, where s is the number of samples and n the number of samples, and leadfield matrix K, of dimension nx3p, where p is the number of voxels used to create the leadfield, with your own data and leadfield:
 
 ```julia
 # example number of electrodes, data samples, voxels
@@ -321,7 +321,7 @@ weights=abs.(randn(p))
 # - - -
 
 # sample covariance matrix of the random EEG data
-C=(1/s)*(X*X')
+C=(1/s)*(X'*X)
 
 Tmn1 = minNorm(K, 1)    # unweighted model-driven min norm with α=1
 Tmn2 = minNorm(K, 10)   # unweighted model-driven min norm with α=10
