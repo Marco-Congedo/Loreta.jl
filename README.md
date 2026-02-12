@@ -346,7 +346,7 @@ Please contact the author if you are interested in contributing.
 [▲ index](#-index)
 
 ---
-## References
+## 🎓 References
 
 [^1]: R. D., Pascual-Marqui, “Review of Methods for Solving the EEG Inverse Problem”, Int. J. Bioelectromag., vol. 1, no.1, pp. 75-86; 1999. [pdf](https://www.ijbem.org/volume1/number1/77-90.pdf).
 
