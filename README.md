@@ -115,9 +115,9 @@ The package exports the following functions:
 | [c2cd](#cd2sm)                        | compute the squared magnitude of the current density given a current density vector |
 | [psfLocError](#psflocerror)           | point spread function localization error   |
 | [psfErrors](#psferrors)               | point spread function localization, spread and equalization errors |
-| [minnorm][#minnorm]                   | compute minimum norm transfer matrix (model and data-driven) |
-| [sLORETA][#sloreta]                   | compute sLORETA transfer matrix (model and data-driven)|
-| [eLORETA][#eloreta]                   | compute eLORETA transfer matrix (model and data-driven)(by an iterative algorithm)|
+| [minnorm](#minnorm)                   | compute minimum norm transfer matrix (model and data-driven) |
+| [sLORETA](#sloreta)                   | compute sLORETA transfer matrix (model and data-driven)|
+| [eLORETA](#eloreta)                   | compute eLORETA transfer matrix (model and data-driven)(by an iterative algorithm)|
 
 [▲ index](#-index)
 
