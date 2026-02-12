@@ -174,9 +174,9 @@ The input vector j may contain any exact multiple of 3 number of elements.
 
 'point spread function Localization Error'
 
-Return the number of localization errors obtained by point spread functions given a leadfield matrix K and a corresponding transformation matrix T --- see 🔣 [here](#-problem-statement-notation-and-nomenclature).
+Return the number of localization errors obtained by point spread functions given a leadfield matrix K and a corresponding transformation matrix T — see 🔣 [here](#-problem-statement-notation-and-nomenclature).
 
-When you create a transfer matrix T, you should test it with this function — see the [test unit of this package](https://github.com/Marco-Congedo/Loreta.jl/blob/master/test/runtests.jl).
+When you create a transfer matrix T, you should test it with this function — see the [examples](#-examples).
 
 ```julia
 psfLocError(K::Matrix{R}, T::Matrix{R}) where R<:Real
