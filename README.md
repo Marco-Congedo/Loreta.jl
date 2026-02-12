@@ -48,57 +48,43 @@ There is virtually no requirement for this package. Any Julia version starting a
 
 ## 🔣 Problem Statement, Notation and Nomenclature
 
-<ul>
-<li>
+Got it — let’s switch to pure Markdown + Unicode math symbols only (no HTML, no LaTeX), optimized for GitHub README rendering and with your requested notation:
+
+✅ Matrices uppercase: K, T, I, H
+
+✅ Scalars lowercase: n, q
+
+✅ Unicode math symbols: ∈ ℝ × ≠ μ²
+
+✅ Clean Markdown lists
+
+✅ Good GitHub rendering
+
+You can paste this directly:
+
 we are given an EEG sensor potentials measurement
-<i>x(t)</i> ∈ ℝ<sup>n</sup>
-at <i>n</i> electrodes referenced to the common average, in μV units where <i>t</i> is time (samples)
-</li>
+x(t) ∈ ℝⁿ at n electrodes referenced to the common average, in μV units, where t is time (samples)
 
-<li>
 we wish to estimate the current density
-<i>j(t)</i> ∈ ℝ<sup>q</sup>
-at <i>q</i> cortical grey matter voxels, in A/m² units, in the three Cartesian spatial directions (x, y, z)
-</li>
-</ul>
+j(t) ∈ ℝᵠ at q cortical grey matter voxels, in A/m² units, in the three Cartesian spatial directions (x, y, z)
 
-<p><b>We have therefore:</b></p>
+We have therefore:
 
-<ul>
-<li>
-<b>Forward equation</b>, determining the scalp voltage given the current distribution:<br>
-<i>x(t)</i> = K <i>c(t)</i><br>
-It is unique for a given <i>leadfield matrix</i>
-K ∈ ℝ<sup>n × (q × 3)</sup>,
-which is a physical head model.
-</li>
+Forward equation — determining the scalp voltage given the current distribution:
+x(t) = K c(t)
+It is unique for a given leadfield matrix K ∈ ℝⁿ×(ᵠ×3), which is a physical head model.
 
-<li>
-<b>Inverse solution</b>, estimating the current distribution given the scalp voltage:<br>
-<i>j(t)</i> = T <i>x(t)</i><br>
-It is not unique. Each inverse solution method yields a different
-<i>transfer matrix</i>
-T ∈ ℝ<sup>(q × 3) × n</sup>.
-</li>
-</ul>
+Inverse solution — estimating the current distribution given the scalp voltage:
+j(t) = T x(t)
+It is not unique. Each inverse solution method yields a different transfer matrix
+T ∈ ℝ(ᵠ×3)×ⁿ
 
-<p>
-A solution is said <i>genuine</i> or to <i>respect the measurement</i> if
-KT = I.
+A solution is said genuine or to respect the measurement if K T = I.
 The weighted minimum norm and eLORETA are genuine solutions, while sLORETA is not.
-</p>
 
-<p>
-The matrix TK ≠ I is called the <i>resolution matrix</i>.
-Its successive groups of three columns, one group per voxel, are called the <i>point-spread functions</i>.
-They allow one to ascertain whether the transfer matrix is capable of correctly localizing a single current dipole, regardless of its position (voxel) and orientation.
-</p>
+Matrix T K ≠ I is called the resolution matrix. Its successive groups of three columns, one group per voxel, are called the point-spread functions. They allow one to ascertain whether the transfer matrix is capable of correctly localizing a single current dipole, regardless of its position (voxel) and orientation.
 
-<p>
-This is a minimal localization capability for an inverse solution, as it (unrealistically) assumes the absence of noise in the measurement and the existence of only one active dipole at a time.
-Nonetheless, it is a minimal requirement. sLORETA and eLORETA possess this property, while the minimum norm does not, like most inverse solution methods found in the literature.
-</p>
-
+This is a minimal localization capability for an inverse solution, as it (unrealistically) assumes the absence of noise in the measurement and the existence of only one active dipole at a time. Nonetheless, it is a minimal requirement. sLORETA and eLORETA possess this property, while the minimum norm does not, like most inverse solution methods found in the literature.
 
 
 
