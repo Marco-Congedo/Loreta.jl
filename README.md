@@ -218,8 +218,8 @@ function minNorm(K::Matrix{R},
                  W::Union{Vector{R}, Nothing}=nothing) where R<:Real
 ```
 
-Given a Nx3p leadfield matrix, where N is the number of electrodes and 3p is the number of voxels times 3 (the x, y, z source components),
-return the **minimum norm regularized transfer matrix** with regularization α.
+Given a Nx3p leadfield matrix, where N is the number of electrodes and 3p is the number of voxels p times 3 (the x, y, z source components),
+return the **minimum norm regularized transfer matrix** with regularization `α`.
 
 if `C` is `:modelDriven` (default), compute the model driven solution, otherwise `C` must be the data covariance matrix and in this case compute the
 data-driven solution — see [here](https://github.com/Marco-Congedo/Loreta.jl/blob/master/Documents/Overview.pdf).
@@ -229,7 +229,10 @@ equal to `:modelDriven` (default), as a weighted data-driven solution is not def
 
 > [!IMPORTANT] 
 > if passed as a matrix, `C` must be non-singular. No check is performed.
+> 
 > The columns of the leadfield matrix must be centered (common average reference).
+> 
+> A suitable regularization parameter `α`>0 should be found by cross-validation or any other suitable method. Never assume an arbitrary value is suitable.
 
 [▲ API index](#-api)
 
