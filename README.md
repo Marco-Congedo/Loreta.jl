@@ -37,7 +37,7 @@ For all of them, the *model-driven* and the *data-driven* version are provided, 
 Execute the following command in julia's REPL:
 
 ```julia
-    ]add Loreta
+]add Loreta
 ```
 
 There is virtually no requirement for this package. Any Julia version starting at 0.7 would work.
@@ -47,6 +47,59 @@ There is virtually no requirement for this package. Any Julia version starting a
 ---
 
 ## 🔣 Problem Statement, Notation and Nomenclature
+
+<ul>
+<li>
+we are given an EEG sensor potentials measurement
+<i>x(t)</i> ∈ ℝ<sup>N</sup>
+at <i>N</i> electrodes referenced to the common average, in μV units where <i>t</i> is time (samples)
+</li>
+
+<li>
+we wish to estimate the current density
+<i>j(t)</i> ∈ ℝ<sup>Q</sup>
+at <i>Q</i> cortical grey matter voxels, in A/m² units, in the three Cartesian spatial directions (x, y, z).
+</li>
+</ul>
+
+<p><b>We have therefore:</b></p>
+
+<ul>
+<li>
+<b>Forward equation</b>, determining the scalp voltage given the current distribution:<br>
+<i>x(t)</i> = K <i>c(t)</i><br>
+It is unique for a given <i>leadfield matrix</i>
+K ∈ ℝ<sup>N × (Q × 3)</sup>,
+which is a physical head model.
+</li>
+
+<li>
+<b>Inverse solution</b>, estimating the current distribution given the scalp voltage:<br>
+<i>j(t)</i> = T <i>x(t)</i><br>
+It is not unique. Each inverse solution method yields a different
+<i>transfer matrix</i>
+T ∈ ℝ<sup>(Q × 3) × N</sup>.
+</li>
+</ul>
+
+<p>
+A solution is said <i>genuine</i> or to <i>respect the measurement</i> if
+KT = I.
+The weighted minimum norm and eLORETA are genuine solutions, while sLORETA is not.
+</p>
+
+<p>
+Matrix TK ≠ I is named the <i>resolution matrix</i>.
+Its successive groups of three columns, one for each voxel, are named the <i>point-spread functions</i>.
+They allow one to ascertain whether the transfer matrix is capable of correctly localizing a single current dipole, regardless of its position (voxel) and orientation.
+</p>
+
+<p>
+This is a minimal localization capability for an inverse solution, as it (unrealistically) assumes the absence of noise in the measurement and the existence of only one active dipole at a time.
+Nonetheless, it is a minimal requirement. sLORETA and eLORETA possess this property, while the minimum norm does not, like most inverse solution methods found in the literature.
+</p>
+
+
 
 The **distributed EEG inverse problem** is stated as it follows: 
 
