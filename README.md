@@ -10,7 +10,7 @@
 
 **Loreta** is a pure-[julia](https://julialang.org/) 100%-human package for computing, testing and using human EEG 
 (Electroencephalography) inverse solutions of the *Minimum Norm* family. Particularly, it implements the following vector-type distributed inverse solutions:
-- *weighted minimum norm* --- see [^1] for a review,
+- *weighted minimum norm* — see [^1] for a review,
 - *standardized Low-Resolution Electromagnetic Tomography* (sLORETA) [^2],
 - *exact Low-Resolution Electromagnetic Tomography* (eLORETA) [^3].
 
@@ -176,7 +176,7 @@ The input vector j may contain any exact multiple of 3 number of elements.
 
 Return the number of localization errors obtained by point spread functions given a leadfield matrix K and a corresponding transformation matrix T --- see 🔣 [here](#-problem-statement-notation-and-nomenclature).
 
-When you create a transfer matrix T, you should test it with this function --- see the [test unit of this package]](https://github.com/Marco-Congedo/Loreta.jl/blob/master/test/runtests.jl).
+When you create a transfer matrix T, you should test it with this function — see the [test unit of this package](https://github.com/Marco-Congedo/Loreta.jl/blob/master/test/runtests.jl).
 
 ```julia
 psfLocError(K::Matrix{R}, T::Matrix{R}) where R<:Real
@@ -222,7 +222,7 @@ Given a Nx3p leadfield matrix, where N is the number of electrodes and 3p is the
 return the **minimum norm regularized transfer matrix** with regularization α.
 
 if `C` is `:modelDriven` (default), compute the model driven solution, otherwise `C` must be the data covariance matrix and in this case compute the
-data-driven solution --- see [here](https://github.com/Marco-Congedo/Loreta.jl/blob/master/Documents/Overview.pdf).
+data-driven solution — see [here](https://github.com/Marco-Congedo/Loreta.jl/blob/master/Documents/Overview.pdf).
 
 if optional keyword argument `W` is a vector of 3p non-negative weights, compute the **weighted minimum norm solution** instead. In this case `C` must be
 equal to `:modelDriven` (default), as a weighted data-driven solution is not defined.
@@ -249,7 +249,7 @@ Given a Nx3p leadfield matrix, where N is the number of electrodes and 3p is the
 return the **sLORETA transfer matrix** with regularization α.
 
 if `C` is `:modelDriven` (default), compute the model driven solution, otherwise `C` must be the data covariance matrix and in this case compute the
-data-driven solution, which is similar (actually better) to the linearly constrained minimum variance beamformer --- see [here](https://github.com/Marco-Congedo/Loreta.jl/blob/master/Documents/Overview.pdf).
+data-driven solution, which is similar (actually better) to the linearly constrained minimum variance beamformer — see [here](https://github.com/Marco-Congedo/Loreta.jl/blob/master/Documents/Overview.pdf).
 
 > [!IMPORTANT] 
 > if passed as a matrix, `C` must be non-singular. No check is performed.
@@ -275,7 +275,7 @@ Given a Nx3p leadfield matrix, where N is the number of electrodes and 3p is the
 return the **eLORETA transfer matrix** with regularization α.
 
 if `C` is `:modelDriven` (default), compute the model driven solution, otherwise `C` must be the data covariance matrix and in this case compute the
-data-driven solution, which is similar (actually better) to the linearly constrained minimum variance beamformer --- see [here](https://github.com/Marco-Congedo/Loreta.jl/blob/master/Documents/Overview.pdf).
+data-driven solution, which is similar (actually better) to the linearly constrained minimum variance beamformer — see [here](https://github.com/Marco-Congedo/Loreta.jl/blob/master/Documents/Overview.pdf).
 
 The model-driven solution is iterative; the convergence at each iteration is printed unless optional keyword argument `verbose` is set to false.
 
