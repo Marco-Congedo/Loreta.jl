@@ -207,6 +207,7 @@ Return the 3-tuple of vectors holding errors obtained at each voxel (test locati
 [▲ index](#-index)
 
 ---
+
 #### minNorm
 
 ```julia
@@ -234,6 +235,7 @@ equal to `:modelDriven` (default), as a weighted data-driven solution is not def
 [▲ index](#-index)
 
 ---
+
 #### sLORETA
 
 ```julia
@@ -257,6 +259,7 @@ data-driven solution, which is similar (actually better) to the linearly constra
 [▲ index](#-index)
 
 ---
+
 #### eLORETA
 
 ```julia
