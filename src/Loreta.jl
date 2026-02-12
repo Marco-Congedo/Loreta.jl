@@ -60,7 +60,7 @@ psfLocError(K::Matrix{R}, T::Matrix{R}) where R<:Real =
 #           true if the maximum cd is not located in the test location.
 # 2) Spread errors (Float)
 #           log(sum of cd everywhere/cd in the test location)
-# 2) Equalization errors (Float)
+# 3) Equalization errors (Float)
 #           uncorrected variance of the cd across all locations
 function psfErrors(K::Matrix{R}, T::Matrix{R}) where R<:Real
    Nv✖3 = size(K, 2)
@@ -154,9 +154,9 @@ end
 # return the eLORETA regularized transfer matrix with regularization `α`.
 # if `C` is `:modelDriven` (default), compute the model driven solution,
 # otherwise `C` must be the data covariance matrix and in this case compute the
-# data-driven solution (similar to the linearly constrained min var beamformer).
+# data-driven solution..
 # The model-driven solution is iterative; the convergence at each iteration
-# is printed unless optional keyword argument `⍰` is set to false.
+# is printed unless optional keyword argument `verbose` is set to false.
 # `tol` is the tolerance for establishing convergence; it defaults to
 # the square root of `Base.eps` of the nearest type of the elements of `K`.
 # This corresponds to requiring the average norm of the difference between
@@ -168,7 +168,7 @@ function eLORETA(K::Matrix{R},
                  α::Real=0.,
                  C::Union{Symbol, Matrix{R}}=:modelDriven,
                  tol::Real=0.,
-                 ⍰=true) where R<:Real
+                 verbose=true) where R<:Real
 
   KWKt(Nv::Int, 𝗞::Vector{Matrix}, 𝗪::Vector{Matrix}) =
        sum(𝗞[v]*𝗪[v]*𝗞[v]' for v=1:Nv)
@@ -192,7 +192,7 @@ function eLORETA(K::Matrix{R},
       Y=(α<=0. ? pinv(KWKt(Nv, 𝗞, 𝗪)) : pinv(KWKt(Nv, 𝗞, 𝗪)+α*ℌ(Ne)))
       @inbounds for v = 1:Nv 💡[v] = (√pinv(𝗞[v]'*Y*𝗞[v])) end
       conv=sum(norm(𝗪[v]-💡[v])/Nv for v=1:Nv)
-      ⍰ && println("iteration: ", iter, "; convergence: ", conv)
+      verbose && println("iteration: ", iter, "; convergence: ", conv)
         (overRun = iter == maxiter) && @warn "function LORETA.eLORETA reached the max number of iterations before convergence:", iter
         (converged = conv <= tolerance) || overRun==true ? break :
             @inbounds for v = 1:Nv 𝗪[v]=💡[v] end
