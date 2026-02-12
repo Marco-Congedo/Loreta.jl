@@ -50,20 +50,23 @@ There is virtually no requirement for this package. Any Julia version starting a
 
 The **distributed EEG inverse problem** is stated as it follows: 
 
-- we are given an EEG sensor measurement \( x(t) \in \mathbb{R}^{N_e} \) at \(N_e\) electrodes, in \(\mu\)\(V\) units where \(t\) is time (samples)
-- we wish to estimate the current density \( j(t) \in \mathbb{R}^{N_v} \) at \(N_v\) cortical grey matter voxels ,in \(A/m²\) units, in the three Cartesian spatial directions \((x, y, z)\). 
+- we are given an EEG sensor potentials measurement \( x(t) \in \mathbb{R}^{N} \) at \(N\) electrodes referenced to the common average, in \(\mu\)\(V\) units where \(t\) is time (samples) 
+- we wish to estimate the current density \( j(t) \in \mathbb{R}^{Q} \) at \(Q\) cortical grey matter voxels ,in \(A/m²\) units, in the three Cartesian spatial directions \((x, y, z)\). 
 
 We have therefore:
 
 - **Forward equation**, determining the scalp voltage given the current distribution : \(x(t) = K c(t)\)
-    It is unique for a given *leadfield matrix* \( K \in \mathbb{R}^{N_e \times (N_v \times 3)} \), which is a physical head model.
+    It is unique for a given *leadfield matrix* \( K \in \mathbb{R}^{N \times (Q \times 3)} \), which is a physical head model.
 
 - **Inverse solution**, estimating the current distribution given the scalp voltage : \(j(t) = T x(t)\)
-    It is not-unique. Each inverse solution method yields a different *tranfer matrix* \( T \in \mathbb{R}^{(N_v \times 3) \times N_e } \).
+    It is not-unique. Each inverse solution method yields a different *tranfer matrix* \( T \in \mathbb{R}^{(Q \times 3) \times N } \).
 
 A solution is said "genuine" or to "respect the measurement" if \(KT=I\). The weighted minimum norm and eLORETA are genuine solutions, while sLORETA is not.
 
 Matrix \(TK \ne I\) is named the *resolution matrix*. Its successive groups of three columns, one for each voxel, are named the *point-spread functions*. They allows to ascertain whether the transfer matrix is capable of localizing correctly a single current dipole, regardless its position (voxel) and orientation. This is a minimal localization capability for an inverse solution, as it (unrealistically) assumes the absence of noise in the measurement and the existence of only one active dipole at a time. Nonetheless, it is a minimal requirement. sLORETA and eLORETA do possess this property, while the minimum norm does not, like most of the inverse solution methods found in the literature.
+
+> [!CAUTION] 
+> Throughout this documentation and in the package it is always assumed both the input data and the leadfield matrix is referenced to the common average --- see [centeringMatrix](#centeringmatrix).
 
 [▲index](#-index)
 
@@ -89,25 +92,24 @@ The package exports the following functions:
 function centeringMatrix(Ne::Int)
 ```
 
-The common average reference (CAR) operator for referencing EEG data 
-potentials so that their mean across sensors (space) is zero at all samples.
+The common average reference (CAR) operator for referencing EEG data potentials so that their mean across sensors (space) is zero at all samples.
 
-Let ``V`` be the ``T×N`` EEG recording, where ``T`` and ``N`` denotes the number of samples and channels (sensors), respectively,
-and let ``H_N`` be the ``N×N`` centering matrix, then 
+Let \(X\) be the \(T×N\) EEG recording, where  \(T\) and  \(N\) denote the number of samples and channels (sensors), respectively,
+and let  \(H_N\) be the  \(N×N\) centering matrix, then 
 
-``Y=XH`` 
+\(Y=XH_N\)
 
 is the CAR (or *centered*) data.
 
-``H_N`` is named the *common average reference operator*. It is given at p.67 by [Searle1982book](@cite), as
+\(H_N\) is named the *common average reference operator*. It is given at p.67 by Searle (1982)[^1], as
 
-``H_N = I_N - \\frac{1}{N} \\left( \\mathbf{1}_N \\mathbf{1}_N^\\top \\right)``
+\(H_N = I_N - \frac{1}{N} \left( \mathbf{1}_N \mathbf{1}_N^\top \right)\)
 
-where ``I_N`` is the N-dimensional identity matrix and ``\\mathbf{1}_N`` is the ``N``-dimensional vector of ones.
+where \(I_N\) is the N-dimensional identity matrix and \(\mathbf{1}_N\) is the \(N\)-dimensional vector of ones.
 
 **Alias** ℌ (U+0210C, with escape sequence "frakH")
 
-**Return** the ``N×N`` centering matrix.
+**Return** the \(N×N\) centering matrix.
 
 **See**[`car!`](@ref)
 
@@ -151,3 +153,6 @@ Please contact the author if you are interested in contributing.
 
 [▲index](#-index)
 
+
+
+[^1]: Aristimunha, B., Carrara, I., Guetschel, P., Sedlar, S., Rodrigues, P., Sosulski, J., Narayanan, D., Bjareholt, E., Quentin, B., Schirrmeister, R. T.,Kalunga, E., Darmet, L., Gregoire, C., Abdul Hussain, A., Gatti, R., Goncharenko, V., Thielen, J., Moreau, T., Roy, Y., Jayaram, V., Barachant,A., & Chevallier, S. Mother of all BCI Benchmarks (MOABB), 2023. DOI: 10.5281/zenodo.10034223.
