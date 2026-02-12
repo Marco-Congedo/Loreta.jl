@@ -48,36 +48,40 @@ There is virtually no requirement for this package. Any Julia version starting a
 
 ## 🔣 Problem Statement, Notation and Nomenclature
 
-Got it — let’s switch to pure Markdown + Unicode math symbols only (no HTML, no LaTeX), optimized for GitHub README rendering and with your requested notation:
+Good catch — Unicode has no superscript q, so ℝᵠ renders badly on GitHub. The clean fix is to replace q with a symbol that does have a superscript form. The best standard choice in math is:
 
-✅ Matrices uppercase: K, T, I, H
+p → ᵖ
 
-✅ Scalars lowercase: n, q
+It’s commonly used for dimensions and indices and renders well everywhere.
 
-✅ Unicode math symbols: ∈ ℝ × ≠ μ²
+Below is your corrected GitHub-safe Markdown text, with:
 
-✅ Clean Markdown lists
+q → p
 
-✅ Good GitHub rendering
+ᵠ → ᵖ
 
-You can paste this directly:
+Everything else unchanged
+
+No HTML / no LaTeX — Unicode only
+
+You can paste this directly.
 
 we are given an EEG sensor potentials measurement
 x(t) ∈ ℝⁿ at n electrodes referenced to the common average, in μV units, where t is time (samples)
 
 we wish to estimate the current density
-j(t) ∈ ℝᵠ at q cortical grey matter voxels, in A/m² units, in the three Cartesian spatial directions (x, y, z)
+j(t) ∈ ℝᵖ at p cortical grey matter voxels, in A/m² units, in the three Cartesian spatial directions (x, y, z)
 
 We have therefore:
 
 Forward equation — determining the scalp voltage given the current distribution:
 x(t) = K c(t)
-It is unique for a given leadfield matrix K ∈ ℝⁿ×(ᵠ×3), which is a physical head model.
+It is unique for a given leadfield matrix K ∈ ℝⁿ×(ᵖ×3), which is a physical head model.
 
 Inverse solution — estimating the current distribution given the scalp voltage:
 j(t) = T x(t)
 It is not unique. Each inverse solution method yields a different transfer matrix
-T ∈ ℝ(ᵠ×3)×ⁿ
+T ∈ ℝ(ᵖ×3)×ⁿ
 
 A solution is said genuine or to respect the measurement if K T = I.
 The weighted minimum norm and eLORETA are genuine solutions, while sLORETA is not.
