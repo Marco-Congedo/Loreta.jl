@@ -14,14 +14,14 @@
 - *standardized Low-Resolution Electromagnetic Tomography* (sLORETA) [^2],
 - *exact Low-Resolution Electromagnetic Tomography* (eLORETA) [^3].
 
-For all of them, the *model-driven* and the *data-driven* versions [^4] are provided, with the latter being actually *beamformers* like in [^5] [^6] [^7] and being little known in the current literature.
+For all of them, the usual *model-driven* and the *data-driven* [^4] versions are provided, with the latter being actually *beamformers* like in [^5] [^6] [^7] and being little known in the current literature.
 
-> [!NOTE] 
-> All mathematical details can be found in [^1] [^2] [^3] [^4] [^8] (see [References](#references)).
+> [!TIP] 
+> All mathematical details can be found in [^1] [^2] [^3] [^4] [^8].
 >
 > An overview of the formula involved in the implementation is [here](https://github.com/Marco-Congedo/Loreta.jl/blob/master/Documents/Overview.pdf).
 >
-> Those that are not familiar with the material, may want to start with this [introduction.](https://drive.google.com/file/d0B_albC6Y6I9KczRoNjlsbWxKZ3c/view?resourcekey=0-LJGNC8sOIGlft_FJ565muA)
+> Those that are not familiar with the material, may want to start with this [introduction.](https://drive.google.com/file/d/0B_albC6Y6I9KczRoNjlsbWxKZ3c/view?usp=drive_web&resourcekey=0-LJGNC8sOIGlft_FJ565muA)
 
 ---
 
@@ -352,7 +352,7 @@ Please contact the author if you are interested in contributing.
 [^3]: R.D. Pascual-Marqui, "Discrete, 3D distributed, linear imaging methods of electric neuronal activity. Part 1: exact, zero
 error localization," arXiv:0710.3341, 2007-October-17. [pdf](http://arxiv.org/pdf/0710.3341)
 
-[^4]: G. Lio, "Identifier l’activité cérébrale responsable de l’état de stress et d’anxiété induit par les acouphènes chroniques.Une étude comparative de l’activité spectrale des aires de Brodmann par tomographie cérébrale électromagnétique chez le sujet sain et pathologique", .Mémoire de deuxième année de master en sciences humaines et sociales mention neuropsychologie spécialité recherche, Université Grenoble Alpes, 2010. [pdf](https://osf.io/te2j9/files/s5b7e).
+[^4]: G. Lio, "Identifier l’activité cérébrale responsable de l’état de stress et d’anxiété induit par les acouphènes chroniques. Une étude comparative de l’activité spectrale des aires de Brodmann par tomographie cérébrale électromagnétique chez le sujet sain et pathologique", Mémoire de deuxième année de master en sciences humaines et sociales, Université Grenoble Alpes, 2010. [pdf](https://osf.io/te2j9/files/s5b7e).
 
 [^5]: B. D. van Veen, W. van Drongelen, A. Suzuki, “Localization of Brain Electrical Activity via Linearly Constrained Minimum Variance Spatial
 Filter,” IEEE Trans. Biomed. Eng., vol. 44, no. 9, pp. 867-880, 1997.
