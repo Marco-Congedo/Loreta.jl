@@ -6,7 +6,7 @@
 # ¤-¤-¤-¤-¤-¤-¤-¤ CONTENT ¤-¤-¤-¤-¤-¤-¤-¤ #
 
 # centeringMatrix   | common average reference operator (alias: ℌ)
-# c2cd              | current density vector given a current vector
+# cd2sm             | current density vector given a current vector
 # psfLocError       | point spread function localization error
 # psfErrors         |
 # minnorm           | minimum norm transformation Matrix
@@ -19,7 +19,7 @@ using LinearAlgebra, Statistics
 
 export
   centeringMatrix, ℌ,
-  c2cd,
+  cd2sm,
   psfLocError,
   psfErrors,
   minNorm,
@@ -34,11 +34,12 @@ centeringMatrix(Ne::Int) = I-1/Ne*(ones(Ne)*ones(Ne)')
 ℌ=centeringMatrix # alias for function centeringMatrix
 
 
-# 'current to current density'
-# return the current density vector (x²+y²+z²) given a current vector
-c2cd(c::Vector{R}) where R<:Real =
+# 'current density to squared magnitude'
+# return the current density squared magnitude vector (x²+y²+z²) given a current vector
+# holding a number of elements multiple of 3.
+cd2sm(c::Vector{R}) where R<:Real =
   if rem(length(c), 3)≠0
-    @warn "function `c2cd`: the length of the input vector is not a mutiple of 3." length(c)
+    @warn "function `cd2sm`: the length of the input vector is not a mutiple of 3." length(c)
   else
     [c[(i-1)*3+1]^2 + c[(i-1)*3+2]^2 + c[(i-1)*3+3]^2 for i = 1:length(c)÷3]
   end
@@ -49,7 +50,7 @@ c2cd(c::Vector{R}) where R<:Real =
 # given a leadfield matrix `K` and a corresponding transformation matrix `T`.
 # For each column of the leadfield
 psfLocError(K::Matrix{R}, T::Matrix{R}) where R<:Real =
-    sum(findmax(c2cd(T*K[:, i]))[2]≠(i-1)÷3+1 for i = 1:size(K, 2))
+    sum(findmax(cd2sm(T*K[:, i]))[2]≠(i-1)÷3+1 for i = 1:size(K, 2))
 
     
 # 'point spread function Errors'
@@ -59,7 +60,7 @@ psfLocError(K::Matrix{R}, T::Matrix{R}) where R<:Real =
 #           true if the maximum cd is not located in the test location.
 # 2) Spread errors (Float)
 #           log(sum of cd everywhere/cd in the test location)
-# 2) Equalization errors (Float)
+# 3) Equalization errors (Float)
 #           uncorrected variance of the cd across all locations
 function psfErrors(K::Matrix{R}, T::Matrix{R}) where R<:Real
    Nv✖3 = size(K, 2)
@@ -68,7 +69,7 @@ function psfErrors(K::Matrix{R}, T::Matrix{R}) where R<:Real
    equ=Vector{Float64}(undef, Nv✖3)
 
    for i=1:Nv✖3
-     c=c2cd(T*K[:, i])
+     c=cd2sm(T*K[:, i])
      loc[i]=findmax(c)[2]≠(i-1)÷3+1
      spr[i]=log(sum(c)/c[(i-1)÷3+1])
      equ[i]=var(c, corrected=false)
@@ -153,9 +154,9 @@ end
 # return the eLORETA regularized transfer matrix with regularization `α`.
 # if `C` is `:modelDriven` (default), compute the model driven solution,
 # otherwise `C` must be the data covariance matrix and in this case compute the
-# data-driven solution (similar to the linearly constrained min var beamformer).
+# data-driven solution..
 # The model-driven solution is iterative; the convergence at each iteration
-# is printed unless optional keyword argument `⍰` is set to false.
+# is printed unless optional keyword argument `verbose` is set to false.
 # `tol` is the tolerance for establishing convergence; it defaults to
 # the square root of `Base.eps` of the nearest type of the elements of `K`.
 # This corresponds to requiring the average norm of the difference between
@@ -167,7 +168,7 @@ function eLORETA(K::Matrix{R},
                  α::Real=0.,
                  C::Union{Symbol, Matrix{R}}=:modelDriven,
                  tol::Real=0.,
-                 ⍰=true) where R<:Real
+                 verbose=true) where R<:Real
 
   KWKt(Nv::Int, 𝗞::Vector{Matrix}, 𝗪::Vector{Matrix}) =
        sum(𝗞[v]*𝗪[v]*𝗞[v]' for v=1:Nv)
@@ -191,7 +192,7 @@ function eLORETA(K::Matrix{R},
       Y=(α<=0. ? pinv(KWKt(Nv, 𝗞, 𝗪)) : pinv(KWKt(Nv, 𝗞, 𝗪)+α*ℌ(Ne)))
       @inbounds for v = 1:Nv 💡[v] = (√pinv(𝗞[v]'*Y*𝗞[v])) end
       conv=sum(norm(𝗪[v]-💡[v])/Nv for v=1:Nv)
-      ⍰ && println("iteration: ", iter, "; convergence: ", conv)
+      verbose && println("iteration: ", iter, "; convergence: ", conv)
         (overRun = iter == maxiter) && @warn "function LORETA.eLORETA reached the max number of iterations before convergence:", iter
         (converged = conv <= tolerance) || overRun==true ? break :
             @inbounds for v = 1:Nv 𝗪[v]=💡[v] end
