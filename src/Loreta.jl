@@ -6,7 +6,7 @@
 # ¤-¤-¤-¤-¤-¤-¤-¤ CONTENT ¤-¤-¤-¤-¤-¤-¤-¤ #
 
 # centeringMatrix   | common average reference operator (alias: ℌ)
-# c2cd              | current density vector given a current vector
+# cd2sm             | current density vector given a current vector
 # psfLocError       | point spread function localization error
 # psfErrors         |
 # minnorm           | minimum norm transformation Matrix
@@ -19,7 +19,7 @@ using LinearAlgebra, Statistics
 
 export
   centeringMatrix, ℌ,
-  c2cd,
+  cd2sm,
   psfLocError,
   psfErrors,
   minNorm,
@@ -34,11 +34,12 @@ centeringMatrix(Ne::Int) = I-1/Ne*(ones(Ne)*ones(Ne)')
 ℌ=centeringMatrix # alias for function centeringMatrix
 
 
-# 'current to current density'
-# return the current density vector (x²+y²+z²) given a current vector
-c2cd(c::Vector{R}) where R<:Real =
+# 'current density to squared magnitude'
+# return the current density squared magnitude vector (x²+y²+z²) given a current vector
+# holding a number of elements multiple of 3.
+cd2sm(c::Vector{R}) where R<:Real =
   if rem(length(c), 3)≠0
-    @warn "function `c2cd`: the length of the input vector is not a mutiple of 3." length(c)
+    @warn "function `cd2sm`: the length of the input vector is not a mutiple of 3." length(c)
   else
     [c[(i-1)*3+1]^2 + c[(i-1)*3+2]^2 + c[(i-1)*3+3]^2 for i = 1:length(c)÷3]
   end
@@ -49,7 +50,7 @@ c2cd(c::Vector{R}) where R<:Real =
 # given a leadfield matrix `K` and a corresponding transformation matrix `T`.
 # For each column of the leadfield
 psfLocError(K::Matrix{R}, T::Matrix{R}) where R<:Real =
-    sum(findmax(c2cd(T*K[:, i]))[2]≠(i-1)÷3+1 for i = 1:size(K, 2))
+    sum(findmax(cd2sm(T*K[:, i]))[2]≠(i-1)÷3+1 for i = 1:size(K, 2))
 
     
 # 'point spread function Errors'
@@ -68,7 +69,7 @@ function psfErrors(K::Matrix{R}, T::Matrix{R}) where R<:Real
    equ=Vector{Float64}(undef, Nv✖3)
 
    for i=1:Nv✖3
-     c=c2cd(T*K[:, i])
+     c=cd2sm(T*K[:, i])
      loc[i]=findmax(c)[2]≠(i-1)÷3+1
      spr[i]=log(sum(c)/c[(i-1)÷3+1])
      equ[i]=var(c, corrected=false)

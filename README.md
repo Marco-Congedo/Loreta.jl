@@ -64,52 +64,36 @@ We have therefore:
 
 **Forward equation** — determining the scalp voltage given the current distribution:
 
-x(t) = K c(t)
+x(t) = K c(t).
 
 It is unique for a given leadfield matrix 
 
-K ∈ ℝⁿ×³ᵖ, 
+K ∈ ℝⁿ×³ᵖ.
 
-which is a physical head model.
+The leadfield encapsulate a physical head model.
 
 **Inverse solution** — estimating the current distribution given the scalp voltage:
 
-j(t) = T x(t)
+j(t) = T x(t).
 
 It is not unique. Each inverse solution method yields a different transfer matrix
 
-T ∈ ℝ³ᵖ×ⁿ
+T ∈ ℝ³ᵖ×ⁿ.
 
 > [!NOTE] 
-> A solution is said *genuine* or to *respect the measurement* if K T = I.
+> A solution is said *genuine* or to *respect the measurement* if 
+> K T = I.
 > The weighted minimum norm and eLORETA are genuine solutions, while sLORETA is not.
 
 > [!NOTE] 
-> Matrix T K ≠ I is called the resolution matrix. Its successive groups of three columns, one group per voxel, are called the point-spread functions. 
+> Matrix 
+> T K ≠ I 
+> is called the resolution matrix. Its successive groups of three columns, one group per voxel, are called the point-spread functions. 
 > They allow one to ascertain whether the transfer matrix is capable of correctly localizing a single current dipole, regardless of its position (voxel) and orientation.
-
+>
 > This is a minimal localization capability for an inverse solution, as it (unrealistically) assumes the absence of noise in the measurement and the existence of only one active dipole at a time. Nonetheless, it is a minimal requirement. sLORETA and eLORETA possess this property, while the minimum norm does not, like most inverse solution methods found in the literature.
 
-
-
-The **distributed EEG inverse problem** is stated as it follows: 
-
-- we are given an EEG sensor potentials measurement \( x(t) \in \mathbb{R}^{N} \) at \(N\) electrodes referenced to the common average, in \(\mu\)\(V\) units where \(t\) is time (samples) 
-- we wish to estimate the current density \( j(t) \in \mathbb{R}^{Q} \) at \(Q\) cortical grey matter voxels ,in \(A/m²\) units, in the three Cartesian spatial directions \((x, y, z)\). 
-
-We have therefore:
-
-- **Forward equation**, determining the scalp voltage given the current distribution : \(x(t) = K c(t)\)
-    It is unique for a given *leadfield matrix* \( K \in \mathbb{R}^{N \times (Q \times 3)} \), which is a physical head model.
-
-- **Inverse solution**, estimating the current distribution given the scalp voltage : \(j(t) = T x(t)\)
-    It is not-unique. Each inverse solution method yields a different *tranfer matrix* \( T \in \mathbb{R}^{(Q \times 3) \times N } \).
-
-A solution is said "genuine" or to "respect the measurement" if \(KT=I\). The weighted minimum norm and eLORETA are genuine solutions, while sLORETA is not.
-
-Matrix \(TK \ne I\) is named the *resolution matrix*. Its successive groups of three columns, one for each voxel, are named the *point-spread functions*. They allows to ascertain whether the transfer matrix is capable of localizing correctly a single current dipole, regardless its position (voxel) and orientation. This is a minimal localization capability for an inverse solution, as it (unrealistically) assumes the absence of noise in the measurement and the existence of only one active dipole at a time. Nonetheless, it is a minimal requirement. sLORETA and eLORETA do possess this property, while the minimum norm does not, like most of the inverse solution methods found in the literature.
-
-> [!CAUTION] 
+> [!WARNING] 
 > Throughout this documentation and in the package it is always assumed both the input data and the leadfield matrix is referenced to the common average --- see [centeringMatrix](#centeringmatrix).
 
 [▲index](#-index)
@@ -133,27 +117,25 @@ The package exports the following functions:
 #### centeringMatrix
 
 ```julia
-function centeringMatrix(Ne::Int)
+function centeringMatrix(N::Int)
 ```
-
 The common average reference (CAR) operator for referencing EEG data potentials so that their mean across sensors (space) is zero at all samples.
 
-Let \(X\) be the \(T×N\) EEG recording, where  \(T\) and  \(N\) denote the number of samples and channels (sensors), respectively,
-and let  \(H_N\) be the  \(N×N\) centering matrix, then 
+Let X be the T×N EEG recording, where T and N denote the number of samples and channels (sensors), respectively, and let Hₙ be the N×N centering matrix, then
 
-\(Y=XH_N\)
+Y = X Hₙ
 
-is the CAR (or *centered*) data.
+is the CAR (or centered) data.
 
-\(H_N\) is named the *common average reference operator*. It is given at p.67 by Searle (1982)[^1], as
+Hₙ is named the common average reference operator. It is given at p.67 by Searle (1982)[^1], as
 
-\(H_N = I_N - \frac{1}{N} \left( \mathbf{1}_N \mathbf{1}_N^\top \right)\)
+Hₙ = Iₙ − (1/N) (1ₙ 1ₙᵀ)
 
-where \(I_N\) is the N-dimensional identity matrix and \(\mathbf{1}_N\) is the \(N\)-dimensional vector of ones.
+where Iₙ is the N-dimensional identity matrix and 1ₙ is the N-dimensional vector of ones.
 
-**Alias** ℌ (U+0210C, with escape sequence "frakH")
+Alias ℌ (U+210C, with escape sequence "frakH")
 
-**Return** the \(N×N\) centering matrix.
+Return the N×N centering matrix.
 
 **See**[`car!`](@ref)
 
@@ -174,6 +156,42 @@ X_dc = ℌ(size(X, 1)) * X * ℌ(size(X, 2))
 
 [▲ API index](#-api)
 
+[▲index](#-index)
+
+---
+
+#### cd2sm
+
+```julia
+function cd2sm(j::Vector{R}) where R<:Real
+```
+
+'current density to squared magnitude'. 
+
+Return the current density squared magnitude vector comprised of 1/3 of the elements of the input current density vector j. The current density vector j holds successively the triplets (x, y, z). Return the successive sums (x²+y²+z²) for each triplet.
+
+The input vector j may contain any exact multiple of 3 number of elements.
+
+> [!NOTE] 
+> Typically, the squared magnitude of the current density is the quantity of interest in neuroimaging studies.
+
+[▲ API index](#-api)
+
+[▲index](#-index)
+
+---
+
+#### psfLocError
+
+'point spread function Localization Error'
+
+Return the number of localization errors obtained by point spread functions given a leadfield matrix K and a corresponding transformation matrix T --- see 🔣 [here](#-problem-statement-notation-and-nomenclature)
+
+```julia
+psfLocError(K::Matrix{R}, T::Matrix{R}) where R<:Real
+```
+
+[▲ API index](#-api)
 
 [▲index](#-index)
 
