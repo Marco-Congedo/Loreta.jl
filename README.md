@@ -135,7 +135,7 @@ Y = X Hₙ
 
 is the CAR (or centered) data.
 
-Hₙ is named the common average reference operator. It is --- see for example p.67 in [^13] ---
+Hₙ is named the common average reference operator. It is given by — see for example p.67 in [^13] —
 
 Hₙ = Iₙ − (1/n) (1ₙ 1ₙᵀ)
 
